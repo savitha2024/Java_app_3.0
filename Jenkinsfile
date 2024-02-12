@@ -108,6 +108,13 @@ pipeline{
                    dockerImageCleanup("${params.ImageName}","${params.ImageTag}","${params.DockerHubUser}")
                }
             }
-        }      
+        }  
+         stage('Deploy to Artifactory') {
+            steps {
+                script {
+                    sh "curl -u ${username}:${password} -T kubernetes-configmap-reload-0.0.1-SNAPSHOT.jar ${artifactoryUrl}/libs-release-local"
+                }
+            }
+        }
     }
 }
